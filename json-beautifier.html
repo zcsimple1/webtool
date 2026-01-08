@@ -3,7 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON美化工具</title>
+    <title>JSON美化工具 - 格式化,语法校验,转Excel/CSV/YAML/Properites</title>
+    <meta name="description" content="开发者专用免费JSON美化工具，支持大文件JSON格式化、语法校验、JSON转Excel/CSV/YAML，提供语法高亮、折叠功能，一键复制和保存，专业级JSON处理工具。">
+    <meta name="keywords" content="开发者JSON美化工具,免费JSON格式化,大文件JSON格式化,JSON语法校验,JSON转Excel,在线JSON压缩,JSON转YAML,专业JSON工具">
+    <meta name="author" content="JSON美化工具">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph Protocol -->
+    <meta property="og:title" content="JSON美化工具 - 格式化，语法校验，转Excel/CSV/YAML/Properites">
+    <meta property="og:description" content="开发者专用免费JSON美化工具，支持大文件JSON格式化、语法校验、JSON转Excel/CSV/YAML，专业级JSON处理工具。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jsonformatter.example.com">
+    <meta property="og:image" content="https://jsonformatter.example.com/og-image.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JSON美化工具 - 在线JSON格式化、压缩和转换">
+    <meta name="twitter:description" content="专业的在线JSON美化工具，支持JSON格式化、压缩、转换为YAML/Excel/Properties格式。">
+    <meta name="twitter:image" content="https://jsonformatter.example.com/twitter-image.png">
+    
     <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -55,28 +74,131 @@
             .resizer:active {
                 @apply bg-primary;
             }
+            .json-toggle {
+                @apply inline-block w-4 h-4 mr-1 cursor-pointer text-gray-500 hover:text-primary transition-colors;
+            }
+            .json-children {
+                @apply pl-4 border-l border-gray-200 ml-2;
+            }
+            .json-collapsed {
+                @apply hidden;
+            }
+            .json-bracket {
+                @apply text-gray-600;
+            }
+            .json-property {
+                @apply leading-tight;
+            }
+            .json-output {
+                @apply font-mono text-sm p-4 bg-gray-50 border border-gray-300 rounded overflow-auto;
+                line-height: 1.4;
+            }
+            .yaml-key {
+                @apply json-key;
+            }
+            .yaml-string {
+                @apply json-string;
+            }
+            .yaml-number {
+                @apply json-number;
+            }
+            .yaml-boolean {
+                @apply json-boolean;
+            }
+            .yaml-null {
+                @apply json-null;
+            }
+            .yaml-value {
+                @apply text-gray-800;
+            }
+            .yaml-list-item {
+                @apply json-bracket font-semibold;
+            }
+            .yaml-line {
+                @apply json-property;
+            }
+            .properties-line {
+                @apply json-property;
+            }
+            .properties-key {
+                @apply json-key;
+            }
+            .properties-value {
+                @apply json-string;
+            }
+            .properties-separator {
+                @apply json-bracket;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
+    <!-- 结构化数据 (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "开发者专用JSON美化工具",
+      "description": "开发者专用免费JSON美化工具，支持大文件JSON格式化、语法校验、JSON转Excel/CSV/YAML，提供语法高亮和折叠功能。",
+      "applicationCategory": "DevelopmentTool",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "featureList": [
+        "JSON美化和格式化",
+        "JSON压缩",
+        "JSON转换为YAML",
+        "JSON转换为Excel/CSV",
+        "JSON转换为Properties",
+        "语法高亮显示",
+        "JSON折叠/展开功能",
+        "一键复制结果",
+        "保存JSON文件"
+      ]
+    }
+    </script>
+    
     <div class="container mx-auto p-4">
         <header class="mb-6">
             <h1 class="text-3xl font-bold text-center text-dark">JSON美化工具</h1>
-            <p class="text-center text-secondary mt-2">输入JSON，一键美化</p>
+            <p class="text-center text-secondary mt-2">免费在线格式化 + 语法校验 + 大文件支持 + 转Excel/CSV/YAML</p>
         </header>
 
         <div class="flex flex-col md:flex-row h-[calc(100vh-12rem)] bg-white rounded-lg shadow-md overflow-hidden">
             <!-- 左侧输入面板 -->
             <div id="input-panel" class="flex-1 flex flex-col border-r border-gray-200">
                 <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-                    <h2 class="font-semibold text-dark">输入JSON</h2>
-                    <button id="format-btn" class="flex items-center px-3 py-1.5 bg-primary text-white rounded hover:bg-blue-700 transition-colors">
-                        <i data-lucide="code" class="w-4 h-4 mr-2"></i>
-                        美化
-                    </button>
+                    <h2 class="font-semibold text-dark">输入JSON数据</h2>
+                    <div class="flex space-x-2">
+                        <button id="format-btn" class="flex items-center px-3 py-1.5 bg-primary text-white rounded hover:bg-blue-700 transition-colors">
+                            <i data-lucide="code" class="w-4 h-4 mr-2"></i>
+                            美化
+                        </button>
+                        <button id="compress-btn" class="flex items-center px-3 py-1.5 bg-secondary text-white rounded hover:bg-gray-600 transition-colors">
+                            <i data-lucide="minimize-2" class="w-4 h-4 mr-2"></i>
+                            压缩
+                        </button>
+                        <div class="relative">
+                            <button id="convert-btn" class="flex items-center px-3 py-1.5 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors">
+                                <i data-lucide="git-branch" class="w-4 h-4 mr-2"></i>
+                                转换
+                                <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
+                            </button>
+                            <div id="convert-dropdown" class="absolute right-0 mt-1 w-40 bg-white rounded-md shadow-lg hidden z-10">
+                                <div class="py-1">
+                                    <a href="#" class="convert-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-format="yaml">YAML</a>
+                                    <a href="#" class="convert-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-format="excel">Excel</a>
+                                    <a href="#" class="convert-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-format="properties">Properties</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="flex-1 p-4 overflow-hidden">
-                    <textarea id="json-input" class="w-full h-full font-mono text-sm p-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none" placeholder="在此输入JSON..."></textarea>
+                    <textarea id="json-input" class="w-full h-full font-mono text-sm p-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none" placeholder="在此输入或粘贴JSON数据，支持JSON美化、压缩和格式转换..."></textarea>
                 </div>
             </div>
 
@@ -86,14 +208,20 @@
             <!-- 右侧输出面板 -->
             <div id="output-panel" class="flex-1 flex flex-col">
                 <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-                    <h2 class="font-semibold text-dark">美化结果</h2>
-                    <button id="copy-btn" class="flex items-center px-3 py-1.5 bg-secondary text-white rounded hover:bg-gray-600 transition-colors">
-                        <i data-lucide="copy" class="w-4 h-4 mr-2"></i>
-                        复制
-                    </button>
+                    <h2 id="output-title" class="font-semibold text-dark">处理结果</h2>
+                    <div class="flex space-x-2">
+                        <button id="copy-btn" class="flex items-center px-3 py-1.5 bg-secondary text-white rounded hover:bg-gray-600 transition-colors">
+                            <i data-lucide="copy" class="w-4 h-4 mr-2"></i>
+                            复制
+                        </button>
+                        <button id="save-btn" class="flex items-center px-3 py-1.5 bg-success text-white rounded hover:bg-green-700 transition-colors">
+                            <i data-lucide="download" class="w-4 h-4 mr-2"></i>
+                            保存
+                        </button>
+                    </div>
                 </div>
                 <div class="flex-1 p-4 overflow-auto">
-                    <pre id="json-output" class="font-mono text-sm p-4 bg-gray-50 border border-gray-300 rounded overflow-auto whitespace-pre"></pre>
+                    <div id="json-output" class="json-output"></div>
                 </div>
             </div>
         </div>
@@ -109,7 +237,14 @@
         const jsonInput = document.getElementById('json-input');
         const jsonOutput = document.getElementById('json-output');
         const formatBtn = document.getElementById('format-btn');
+        const compressBtn = document.getElementById('compress-btn');
+        const convertBtn = document.getElementById('convert-btn');
+        const convertDropdown = document.getElementById('convert-dropdown');
         const copyBtn = document.getElementById('copy-btn');
+        const saveBtn = document.getElementById('save-btn');
+        
+        // 当前转换格式
+        let currentConvertFormat = null;
         const notification = document.getElementById('notification');
         const inputPanel = document.getElementById('input-panel');
         const outputPanel = document.getElementById('output-panel');
@@ -129,10 +264,20 @@
             try {
                 // 解析JSON
                 const parsedJSON = JSON.parse(input);
-                // 格式化JSON，缩进为2个空格
-                const formattedJSON = JSON.stringify(parsedJSON, null, 2);
-                // 应用语法高亮
-                jsonOutput.innerHTML = syntaxHighlight(formattedJSON);
+                
+                // 更新右侧标题
+                document.getElementById('output-title').textContent = '美化结果';
+                
+                // 清空输出区域
+                jsonOutput.innerHTML = '';
+                
+                // 创建并添加JSON树
+                const jsonTree = createJSONTree(parsedJSON);
+                jsonOutput.appendChild(jsonTree);
+                
+                // 重新渲染所有图标
+                lucide.createIcons();
+                
                 showNotification('JSON美化成功', 'success');
             } catch (error) {
                 // 显示错误信息
@@ -141,33 +286,205 @@
             }
         }
 
-        // JSON语法高亮
-        function syntaxHighlight(json) {
-            // 将JSON字符串转换为HTML，转义特殊字符
-            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        // 创建可折叠的JSON树
+        function createJSONTree(obj) {
+            return processValue(obj);
+        }
+
+        // 处理JSON值
+        function processValue(value) {
+            const type = Array.isArray(value) ? 'array' : typeof value;
             
-            // 使用正则表达式为不同类型的JSON元素添加样式类
-            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-                let cls = 'json-number';
-                
-                if (/^"/.test(match)) {
-                    if (/:$/.test(match)) {
-                        cls = 'json-key';
-                        // 移除键后面的冒号
-                        match = match.replace(/:$/, '');
-                        // 在冒号前添加样式，然后添加冒号
-                        return '<span class="' + cls + '">' + match + '</span>: ';
-                    } else {
-                        cls = 'json-string';
+            switch (type) {
+                case 'object':
+                    if (value === null) {
+                        const span = document.createElement('span');
+                        span.className = 'json-null';
+                        span.textContent = 'null';
+                        return span;
                     }
-                } else if (/true|false/.test(match)) {
-                    cls = 'json-boolean';
-                } else if (/null/.test(match)) {
-                    cls = 'json-null';
+                    return processObject(value);
+                case 'array':
+                    return processArray(value);
+                case 'string':
+                    const stringSpan = document.createElement('span');
+                    stringSpan.className = 'json-string';
+                    stringSpan.textContent = `"${value}"`;
+                    return stringSpan;
+                case 'number':
+                    const numberSpan = document.createElement('span');
+                    numberSpan.className = 'json-number';
+                    numberSpan.textContent = value;
+                    return numberSpan;
+                case 'boolean':
+                    const booleanSpan = document.createElement('span');
+                    booleanSpan.className = 'json-boolean';
+                    booleanSpan.textContent = value;
+                    return booleanSpan;
+                default:
+                    const defaultSpan = document.createElement('span');
+                    defaultSpan.textContent = String(value);
+                    return defaultSpan;
+            }
+        }
+
+        // 处理JSON对象
+        function processObject(obj) {
+            const keys = Object.keys(obj);
+            
+            if (keys.length === 0) {
+                const span = document.createElement('span');
+                span.className = 'json-bracket';
+                span.textContent = '{ }';
+                return span;
+            }
+            
+            // 创建容器元素
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'json-item';
+            
+            // 创建切换容器
+            const toggleContainer = document.createElement('span');
+            toggleContainer.className = 'json-toggle-container';
+            
+            // 创建切换按钮
+            const toggleBtn = document.createElement('i');
+            toggleBtn.setAttribute('data-lucide', 'chevron-down');
+            toggleBtn.className = 'json-toggle inline-block w-4 h-4 mr-1 cursor-pointer';
+            toggleBtn.onclick = toggleJSON;
+            
+            // 创建左括号
+            const leftBracket = document.createElement('span');
+            leftBracket.className = 'json-bracket';
+            leftBracket.textContent = '{';
+            
+            // 组装切换容器
+            toggleContainer.appendChild(toggleBtn);
+            toggleContainer.appendChild(leftBracket);
+            
+            // 创建子元素容器
+            const childrenDiv = document.createElement('div');
+            childrenDiv.className = 'json-children';
+            
+            // 添加属性
+            keys.forEach((key, index) => {
+                const propertyDiv = document.createElement('div');
+                propertyDiv.className = 'json-property';
+                
+                const keySpan = document.createElement('span');
+                keySpan.className = 'json-key';
+                keySpan.textContent = `"${key}": `;
+                
+                const valueElement = processValue(obj[key]);
+                
+                propertyDiv.appendChild(keySpan);
+                propertyDiv.appendChild(valueElement);
+                
+                if (index < keys.length - 1) {
+                    const commaSpan = document.createElement('span');
+                    commaSpan.textContent = ',';
+                    propertyDiv.appendChild(commaSpan);
                 }
                 
-                return '<span class="' + cls + '">' + match + '</span>';
+                childrenDiv.appendChild(propertyDiv);
             });
+            
+            // 创建右括号
+            const rightBracket = document.createElement('span');
+            rightBracket.className = 'json-bracket';
+            rightBracket.textContent = '}';
+            
+            // 组装整个对象
+            itemDiv.appendChild(toggleContainer);
+            itemDiv.appendChild(childrenDiv);
+            itemDiv.appendChild(rightBracket);
+            
+            return itemDiv;
+        }
+
+        // 处理JSON数组
+        function processArray(arr) {
+            if (arr.length === 0) {
+                const span = document.createElement('span');
+                span.className = 'json-bracket';
+                span.textContent = '[ ]';
+                return span;
+            }
+            
+            // 创建容器元素
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'json-item';
+            
+            // 创建切换容器
+            const toggleContainer = document.createElement('span');
+            toggleContainer.className = 'json-toggle-container';
+            
+            // 创建切换按钮
+            const toggleBtn = document.createElement('i');
+            toggleBtn.setAttribute('data-lucide', 'chevron-down');
+            toggleBtn.className = 'json-toggle inline-block w-4 h-4 mr-1 cursor-pointer';
+            toggleBtn.onclick = toggleJSON;
+            
+            // 创建左括号
+            const leftBracket = document.createElement('span');
+            leftBracket.className = 'json-bracket';
+            leftBracket.textContent = '[';
+            
+            // 组装切换容器
+            toggleContainer.appendChild(toggleBtn);
+            toggleContainer.appendChild(leftBracket);
+            
+            // 创建子元素容器
+            const childrenDiv = document.createElement('div');
+            childrenDiv.className = 'json-children';
+            
+            // 添加数组元素
+            arr.forEach((item, index) => {
+                const propertyDiv = document.createElement('div');
+                propertyDiv.className = 'json-property';
+                
+                const valueElement = processValue(item);
+                propertyDiv.appendChild(valueElement);
+                
+                if (index < arr.length - 1) {
+                    const commaSpan = document.createElement('span');
+                    commaSpan.textContent = ',';
+                    propertyDiv.appendChild(commaSpan);
+                }
+                
+                childrenDiv.appendChild(propertyDiv);
+            });
+            
+            // 创建右括号
+            const rightBracket = document.createElement('span');
+            rightBracket.className = 'json-bracket';
+            rightBracket.textContent = ']';
+            
+            // 组装整个数组
+            itemDiv.appendChild(toggleContainer);
+            itemDiv.appendChild(childrenDiv);
+            itemDiv.appendChild(rightBracket);
+            
+            return itemDiv;
+        }
+
+        // 切换JSON节点的折叠/展开状态
+        function toggleJSON() {
+            // 找到子元素容器
+            const childrenContainer = this.parentElement.nextElementSibling;
+            
+            if (childrenContainer.classList.contains('json-collapsed')) {
+                // 展开
+                childrenContainer.classList.remove('json-collapsed');
+                this.setAttribute('data-lucide', 'chevron-down');
+            } else {
+                // 折叠
+                childrenContainer.classList.add('json-collapsed');
+                this.setAttribute('data-lucide', 'chevron-right');
+            }
+            
+            // 重新渲染图标
+            lucide.createIcons();
         }
 
         // 复制到剪贴板
@@ -276,10 +593,564 @@
             });
         }
 
+        // 压缩JSON
+        function compressJSON() {
+            const input = jsonInput.value.trim();
+            
+            // 检查输入是否为空
+            if (!input) {
+                showNotification('请输入JSON', 'info');
+                return;
+            }
+            
+            try {
+                // 解析JSON
+                const parsedJSON = JSON.parse(input);
+                // 压缩JSON（不添加缩进和空格）
+                const compressedJSON = JSON.stringify(parsedJSON);
+                
+                // 更新右侧标题
+                document.getElementById('output-title').textContent = '压缩结果';
+                
+                // 清空输出区域
+                jsonOutput.innerHTML = '';
+                
+                // 创建大小信息元素
+                const sizeDiv = document.createElement('div');
+                sizeDiv.className = 'flex justify-end items-center mb-2';
+                
+                const sizeSpan = document.createElement('span');
+                sizeSpan.className = 'text-sm text-secondary';
+                sizeSpan.textContent = `大小: ${new Blob([compressedJSON]).size} 字节`;
+                
+                sizeDiv.appendChild(sizeSpan);
+                jsonOutput.appendChild(sizeDiv);
+                
+                // 创建显示压缩JSON的pre元素
+                const pre = document.createElement('pre');
+                pre.className = 'font-mono text-sm p-4 bg-gray-50 border border-gray-300 rounded overflow-auto whitespace-pre-wrap break-all';
+                pre.textContent = compressedJSON;
+                
+                jsonOutput.appendChild(pre);
+                
+                showNotification('JSON压缩成功', 'success');
+            } catch (error) {
+                // 显示错误信息
+                jsonOutput.innerHTML = `<span class="text-danger">错误: ${error.message}</span>`;
+                showNotification('JSON格式无效', 'error');
+            }
+        }
+
+        // 保存内容到本地文件
+        function saveJSONToFile() {
+            // 获取当前输出区域的内容
+            const outputTitle = document.getElementById('output-title').textContent;
+            let content = '';
+            let defaultFilename = '';
+            let mimeType = 'application/json';
+            
+            // 优先使用原始内容（如果有）
+            if (jsonOutput.dataset.originalContent) {
+                content = jsonOutput.dataset.originalContent;
+            } else {
+                // 获取输出内容
+                const preElement = jsonOutput.querySelector('pre');
+                if (preElement) {
+                    content = preElement.textContent;
+                } else {
+                    content = jsonOutput.textContent;
+                }
+            }
+            
+            // 检查内容是否为空
+            if (!content.trim()) {
+                showNotification('没有可保存的内容', 'info');
+                return;
+            }
+            
+            // 根据当前模式获取默认文件名和MIME类型
+            if (outputTitle === '美化结果') {
+                defaultFilename = `beauty_${Date.now()}.json`;
+            } else if (outputTitle === '压缩结果') {
+                defaultFilename = `minify_${Date.now()}.json`;
+            } else if (currentConvertFormat) {
+                // 根据转换格式设置文件名和MIME类型
+                switch (currentConvertFormat) {
+                    case 'yaml':
+                        defaultFilename = `convert_${Date.now()}.yaml`;
+                        mimeType = 'text/yaml';
+                        break;
+                    case 'excel':
+                        defaultFilename = `convert_${Date.now()}.csv`;
+                        mimeType = 'text/csv';
+                        break;
+                    case 'properties':
+                        defaultFilename = `convert_${Date.now()}.properties`;
+                        mimeType = 'text/plain';
+                        break;
+                }
+            } else {
+                showNotification('没有可保存的内容', 'info');
+                return;
+            }
+            
+            try {
+                // 创建Blob对象
+                const blob = new Blob([content], { type: mimeType });
+                
+                // 创建下载链接
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = defaultFilename;
+                
+                // 触发下载
+                document.body.appendChild(a);
+                a.click();
+                
+                // 清理
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 0);
+                
+                showNotification(`内容已保存为 ${defaultFilename}`, 'success');
+            } catch (error) {
+                showNotification('保存失败: ' + error.message, 'error');
+            }
+        }
+
+        // 切换转换下拉框
+        function toggleConvertDropdown() {
+            convertDropdown.classList.toggle('hidden');
+        }
+        
+        // 转换JSON到其他格式
+        function convertJSON(format) {
+            const input = jsonInput.value.trim();
+            
+            // 检查输入是否为空
+            if (!input) {
+                showNotification('请输入JSON', 'info');
+                return;
+            }
+            
+            try {
+                // 解析JSON
+                const parsedJSON = JSON.parse(input);
+                let convertedContent = '';
+                let fileExtension = '';
+                let formatName = '';
+                
+                // 更新当前转换格式
+                currentConvertFormat = format;
+                
+                // 根据选择的格式进行转换
+                switch (format) {
+                    case 'yaml':
+                        convertedContent = jsonToYaml(parsedJSON);
+                        fileExtension = 'yaml';
+                        formatName = 'YAML';
+                        break;
+                    case 'excel':
+                        // 对于Excel，我们创建一个CSV格式，因为浏览器无法直接生成Excel文件
+                        convertedContent = jsonToCsv(parsedJSON);
+                        fileExtension = 'csv';
+                        formatName = 'CSV (Excel兼容)';
+                        break;
+                    case 'properties':
+                        convertedContent = jsonToProperties(parsedJSON);
+                        fileExtension = 'properties';
+                        formatName = 'Properties';
+                        break;
+                    default:
+                        showNotification('不支持的转换格式', 'error');
+                        return;
+                }
+                
+                // 更新右侧标题
+                document.getElementById('output-title').textContent = `转换为${formatName}`;
+                
+                // 清空输出区域
+                jsonOutput.innerHTML = '';
+                
+                // 根据不同格式进行特殊处理
+                if (format === 'yaml') {
+                    // 为YAML添加语法高亮和格式化，直接设置到jsonOutput
+                    jsonOutput.innerHTML = formatYamlWithHighlight(convertedContent);
+                } else if (format === 'properties') {
+                    // 为Properties添加语法高亮和格式化，同时保持保存时的纯文本格式
+                    jsonOutput.innerHTML = formatPropertiesForDisplay(convertedContent);
+                    // 保存原始内容用于下载
+                    jsonOutput.dataset.originalContent = convertedContent;
+                } else if (format === 'excel') {
+                    // 对于CSV格式，在页面上显示时添加换行，使其更易于阅读
+                    jsonOutput.innerHTML = `<pre class="whitespace-pre-wrap">${convertedContent}</pre>`;
+                    // 保存原始内容用于下载
+                    jsonOutput.dataset.originalContent = convertedContent;
+                } else {
+                    // 其他格式直接显示文本
+                    jsonOutput.textContent = convertedContent;
+                }
+                
+                showNotification(`JSON已转换为${formatName}`, 'success');
+            } catch (error) {
+                // 显示错误信息
+                jsonOutput.innerHTML = `<span class="text-danger">错误: ${error.message}</span>`;
+                showNotification('JSON格式无效', 'error');
+            }
+            
+            // 隐藏下拉框
+            convertDropdown.classList.add('hidden');
+        }
+        
+        // JSON转YAML
+        function jsonToYaml(obj, indent = 0) {
+            const spaces = '  '.repeat(indent);
+            let yaml = '';
+            
+            if (Array.isArray(obj)) {
+                obj.forEach(item => {
+                    yaml += `${spaces}- `;
+                    if (typeof item === 'object' && item !== null) {
+                        yaml += '\n' + jsonToYaml(item, indent + 1);
+                    } else {
+                        yaml += `${item}\n`;
+                    }
+                });
+            } else if (typeof obj === 'object' && obj !== null) {
+                Object.keys(obj).forEach(key => {
+                    yaml += `${spaces}${key}: `;
+                    if (typeof obj[key] === 'object' && obj[key] !== null) {
+                        yaml += '\n' + jsonToYaml(obj[key], indent + 1);
+                    } else {
+                        yaml += `${obj[key]}\n`;
+                    }
+                });
+            }
+            
+            return yaml;
+        }
+        
+        // JSON转CSV
+        function jsonToCsv(obj) {
+            // 处理对象数组情况：[{"name":"a", "age":1}, {"name":"b", "age":2}]
+            if (Array.isArray(obj) && obj.length > 0 && typeof obj[0] === 'object' && obj[0] !== null) {
+                return arrayOfObjectsToCsv(obj);
+            }
+            // 处理单个对象情况：{"name":{"first":"a","last":"b"}}
+            else if (typeof obj === 'object' && obj !== null && !Array.isArray(obj)) {
+                // 对于单个对象，我们将其转换为键值对列表，每个键值对占一行
+                // 键在一个单元格，值在另一个单元格
+                return objectToKeyValueCsv(obj);
+            }
+            // 其他情况，返回空字符串
+            return '';
+        }
+        
+        // 将对象数组转换为CSV
+        function arrayOfObjectsToCsv(objArray) {
+            if (objArray.length === 0) return '';
+            
+            // 获取所有唯一的键作为标题行
+            const allKeys = new Set();
+            objArray.forEach(obj => {
+                if (typeof obj === 'object' && obj !== null) {
+                    Object.keys(obj).forEach(key => allKeys.add(key));
+                }
+            });
+            const headers = Array.from(allKeys);
+            
+            // 构建CSV
+            let csv = headers.join(',') + '\n';
+            
+            // 添加数据行
+            objArray.forEach(item => {
+                if (typeof item !== 'object' || item === null) {
+                    // 如果不是对象，添加一个空行
+                    csv += '\n';
+                    return;
+                }
+                
+                const row = headers.map(header => {
+                    const value = item[header];
+                    return formatCsvValue(value);
+                });
+                csv += row.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+        
+        // 将对象转换为键值对CSV（键在一个单元格，值在另一个单元格）
+        function objectToKeyValueCsv(obj, prefix = '') {
+            // 创建CSV数据数组
+            const rows = [];
+            
+            // 不添加标题行，直接添加数据行
+            
+            // 递归函数来处理嵌套对象
+            function processObject(obj, currentPrefix = '') {
+                // 如果是叶子节点（非对象或为null）
+                if (typeof obj !== 'object' || obj === null) {
+                    // 添加键值对行
+                    rows.push([currentPrefix, obj]);
+                    return;
+                }
+                
+                // 如果是数组
+                if (Array.isArray(obj)) {
+                    // 对于数组，我们将每个元素作为一个值，键包含索引
+                    obj.forEach((item, index) => {
+                        const newPrefix = currentPrefix ? `${currentPrefix}[${index}]` : `[${index}]`;
+                        processObject(item, newPrefix);
+                    });
+                    return;
+                }
+                
+                // 如果是对象，处理每个属性
+                const keys = Object.keys(obj);
+                if (keys.length === 0) {
+                    // 空对象
+                    rows.push([currentPrefix, '{}']);
+                    return;
+                }
+                
+                // 对于嵌套对象，递归处理每个属性
+                keys.forEach(key => {
+                    const newPrefix = currentPrefix ? `${currentPrefix}.${key}` : key;
+                    processObject(obj[key], newPrefix);
+                });
+            }
+            
+            // 处理对象
+            processObject(obj, prefix);
+            
+            // 如果没有数据行，返回空字符串
+            if (rows.length === 0) {
+                return '';
+            }
+            
+            // 构建CSV
+            let csv = '';
+            rows.forEach(row => {
+                const csvRow = row.map(cell => formatCsvValue(cell));
+                csv += csvRow.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+        
+        // 格式化CSV值
+        function formatCsvValue(value) {
+            // 处理null和undefined
+            if (value === null || value === undefined) {
+                return '';
+            }
+            
+            // 处理数组和对象
+            if (typeof value === 'object') {
+                value = JSON.stringify(value);
+            }
+            
+            // 转换为字符串
+            value = String(value);
+            
+            // 如果值包含逗号、引号或换行符，则用引号包裹并转义内部引号
+            if (value.includes(',') || value.includes('"') || value.includes('\n') || value.includes('\r')) {
+                return `"${value.replace(/"/g, '""')}"`;
+            }
+            
+            return value;
+        }
+        
+        // JSON转Properties
+        function jsonToProperties(obj, prefix = '') {
+            let properties = [];
+            
+            if (typeof obj === 'object' && obj !== null) {
+                Object.keys(obj).forEach(key => {
+                    const fullKey = prefix ? `${prefix}.${key}` : key;
+                    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+                        // 递归处理嵌套对象，使用点连接键名
+                        const nestedProperties = jsonToProperties(obj[key], fullKey);
+                        if (nestedProperties) {
+                            properties.push(nestedProperties);
+                        }
+                    } else {
+                        // 确保等号左右没有空格
+                        properties.push(`${fullKey}=${obj[key]}`);
+                    }
+                });
+            }
+            
+            return properties.join('\n');
+        }
+        
+        // 为YAML添加语法高亮和格式化
+        function formatYamlWithHighlight(yamlText) {
+            // 替换特殊字符以避免HTML解析问题
+            yamlText = yamlText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            
+            // 按行分割
+            const lines = yamlText.split('\n');
+            
+            // 处理每一行，添加语法高亮
+            const highlightedLines = lines.map(line => {
+                // 跳过空行
+                if (!line.trim()) return '<span class="yaml-empty-line"></span>';
+                
+                // 匹配缩进（用于层级显示）
+                const indentMatch = line.match(/^(\s*)/);
+                const indent = indentMatch ? indentMatch[1] : '';
+                const content = line.substring(indent.length);
+                
+                // 计算缩进级别（每两个空格为一级）
+                const indentLevel = (indent.length / 2);
+                
+                // 处理不同的YAML元素
+                let highlightedContent = content;
+                
+                // 匹配键值对
+                const keyValueMatch = content.match(/^([\w-]+):\s*(.*)$/);
+                if (keyValueMatch) {
+                    const key = keyValueMatch[1];
+                    let value = keyValueMatch[2];
+                    
+                    // 高亮键
+                    highlightedContent = `<span class="yaml-key">${key}</span>:`;
+                    
+                    // 高亮值
+                    if (value) {
+                        // 字符串值
+                        if (value.match(/^['"].*['"]$/)) {
+                            highlightedContent += ` <span class="yaml-string">${value}</span>`;
+                        }
+                        // 数字值
+                        else if (value.match(/^\d+(\.\d+)?$/)) {
+                            highlightedContent += ` <span class="yaml-number">${value}</span>`;
+                        }
+                        // 布尔值
+                        else if (value.match(/^(true|false|yes|no|on|off)$/i)) {
+                            highlightedContent += ` <span class="yaml-boolean">${value}</span>`;
+                        }
+                        // null值
+                        else if (value.match(/^(null|~|nil)$/i)) {
+                            highlightedContent += ` <span class="yaml-null">${value}</span>`;
+                        }
+                        // 其他值
+                        else {
+                            highlightedContent += ` <span class="yaml-value">${value}</span>`;
+                        }
+                    }
+                }
+                // 匹配列表项
+                else if (content.match(/^-\s/)) {
+                    highlightedContent = `<span class="yaml-list-item">-</span>${content.substring(1)}`;
+                }
+                
+                // 添加缩进和层级边框
+                const paddingLeft = indentLevel * 20; // 每层缩进20px
+                return `<div class="yaml-line" style="padding-left: ${paddingLeft}px; position: relative;">
+
+                    ${highlightedContent}
+                </div>`;
+            });
+            
+            return highlightedLines.join('\n');
+        }
+        
+        // 为Properties添加语法高亮和格式化（仅用于显示）
+        function formatPropertiesForDisplay(propertiesText) {
+            // 替换特殊字符以避免HTML解析问题
+            propertiesText = propertiesText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            
+            // 按行分割
+            const lines = propertiesText.split('\n');
+            
+            // 处理每一行，添加语法高亮
+            const highlightedLines = lines.map(line => {
+                // 跳过空行
+                if (!line.trim()) return '<div class="properties-line"></div>';
+                
+                // 匹配键值对
+                const keyValueMatch = line.match(/^([^=]+)=(.*)$/);
+                if (keyValueMatch) {
+                    const key = keyValueMatch[1];
+                    const value = keyValueMatch[2];
+                    
+                    // 高亮键、分隔符和值
+                    return `<div class="properties-line">
+                        <span class="properties-key">${key}</span>
+                        <span class="properties-separator">=</span>
+                        <span class="properties-value">${value}</span>
+                    </div>`;
+                }
+                
+                // 其他行直接返回
+                return `<div class="properties-line">${line}</div>`;
+            });
+            
+            return highlightedLines.join('\n');
+        }
+        
+        // 为Properties添加语法高亮和格式化（保留供后续使用）
+        function formatPropertiesWithHighlight(propertiesText) {
+            // 替换特殊字符以避免HTML解析问题
+            propertiesText = propertiesText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            
+            // 按行分割
+            const lines = propertiesText.split('\n');
+            
+            // 处理每一行，添加语法高亮
+            const highlightedLines = lines.map(line => {
+                // 跳过空行
+                if (!line.trim()) return '<span class="properties-empty-line"></span>';
+                
+                // 匹配键值对
+                const keyValueMatch = line.match(/^([^=]+)=(.*)$/);
+                if (keyValueMatch) {
+                    const key = keyValueMatch[1];
+                    const value = keyValueMatch[2];
+                    
+                    // 高亮键、分隔符和值
+                    return `<div class="properties-line">
+                        <span class="properties-key">${key}</span>
+                        <span class="properties-separator">=</span>
+                        <span class="properties-value">${value}</span>
+                    </div>`;
+                }
+                
+                // 其他行直接返回
+                return `<div class="properties-line">${line}</div>`;
+            });
+            
+            return highlightedLines.join('\n');
+        }
+        
         // 事件监听
         formatBtn.addEventListener('click', formatJSON);
+        compressBtn.addEventListener('click', compressJSON);
+        convertBtn.addEventListener('click', toggleConvertDropdown);
         copyBtn.addEventListener('click', copyToClipboard);
+        saveBtn.addEventListener('click', saveJSONToFile);
         jsonInput.addEventListener('input', formatJSON);
+        
+        // 为转换选项添加事件监听
+        document.querySelectorAll('.convert-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.preventDefault();
+                const format = e.target.getAttribute('data-format');
+                convertJSON(format);
+            });
+        });
+        
+        // 点击其他地方关闭下拉框
+        document.addEventListener('click', (e) => {
+            if (!convertBtn.contains(e.target) && !convertDropdown.contains(e.target)) {
+                convertDropdown.classList.add('hidden');
+            }
+        });
 
         // 初始化
         document.addEventListener('DOMContentLoaded', () => {
@@ -287,5 +1158,21 @@
             lucide.createIcons();
         });
     </script>
+
+    <!-- Google AdSense广告 -->
+    <div class="container mx-auto p-4 mt-4">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5542745258842294"
+             crossorigin="anonymous"></script>
+        <!-- adsense_h1 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5542745258842294"
+             data-ad-slot="2877002167"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
 </body>
 </html>
