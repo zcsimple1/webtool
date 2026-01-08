@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON美化工具</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.544.0/dist/umd/lucide.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#64748b',
+                        success: '#10b981',
+                        danger: '#ef4444',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .json-key {
+                @apply text-blue-600;
+            }
+            .json-string {
+                @apply text-green-600;
+            }
+            .json-number {
+                @apply text-amber-600;
+            }
+            .json-boolean {
+                @apply text-purple-600;
+            }
+            .json-null {
+                @apply text-red-600;
+            }
+            .resizer {
+                @apply w-1 bg-gray-300 cursor-col-resize hover:bg-gray-400 transition-colors;
+                min-width: 1px;
+            }
+            .resizer:active {
+                @apply bg-primary;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-4">
+        <header class="mb-6">
+            <h1 class="text-3xl font-bold text-center text-dark">JSON美化工具</h1>
+            <p class="text-center text-secondary mt-2">输入JSON，一键美化</p>
+        </header>
+
+        <div class="flex flex-col md:flex-row h-[calc(100vh-12rem)] bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- 左侧输入面板 -->
+            <div id="input-panel" class="flex-1 flex flex-col border-r border-gray-200">
+                <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                    <h2 class="font-semibold text-dark">输入JSON</h2>
+                    <button id="format-btn" class="flex items-center px-3 py-1.5 bg-primary text-white rounded hover:bg-blue-700 transition-colors">
+                        <i data-lucide="code" class="w-4 h-4 mr-2"></i>
+                        美化
+                    </button>
+                </div>
+                <div class="flex-1 p-4 overflow-hidden">
+                    <textarea id="json-input" class="w-full h-full font-mono text-sm p-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none" placeholder="在此输入JSON..."></textarea>
+                </div>
+            </div>
+
+            <!-- 分隔线 -->
+            <div id="resizer" class="resizer"></div>
+
+            <!-- 右侧输出面板 -->
+            <div id="output-panel" class="flex-1 flex flex-col">
+                <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                    <h2 class="font-semibold text-dark">美化结果</h2>
+                    <button id="copy-btn" class="flex items-center px-3 py-1.5 bg-secondary text-white rounded hover:bg-gray-600 transition-colors">
+                        <i data-lucide="copy" class="w-4 h-4 mr-2"></i>
+                        复制
+                    </button>
+                </div>
+                <div class="flex-1 p-4 overflow-auto">
+                    <pre id="json-output" class="font-mono text-sm p-4 bg-gray-50 border border-gray-300 rounded overflow-auto whitespace-pre"></pre>
+                </div>
+            </div>
+        </div>
+
+        <div id="notification" class="fixed bottom-4 right-4 px-4 py-2 rounded-md shadow-lg transform translate-y-16 opacity-0 transition-all duration-300 flex items-center"></div>
+    </div>
+
+    <script>
+        // 初始化Lucide图标
+        lucide.createIcons();
+
+        // 获取DOM元素
+        const jsonInput = document.getElementById('json-input');
+        const jsonOutput = document.getElementById('json-output');
+        const formatBtn = document.getElementById('format-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const notification = document.getElementById('notification');
+        const inputPanel = document.getElementById('input-panel');
+        const outputPanel = document.getElementById('output-panel');
+        const resizer = document.getElementById('resizer');
+
+        // 格式化JSON并显示
+        function formatJSON() {
+            const input = jsonInput.value.trim();
+            
+            // 检查输入是否为空
+            if (!input) {
+                jsonOutput.innerHTML = '';
+                showNotification('请输入JSON', 'info');
+                return;
+            }
+            
+            try {
+                // 解析JSON
+                const parsedJSON = JSON.parse(input);
+                // 格式化JSON，缩进为2个空格
+                const formattedJSON = JSON.stringify(parsedJSON, null, 2);
+                // 应用语法高亮
+                jsonOutput.innerHTML = syntaxHighlight(formattedJSON);
+                showNotification('JSON美化成功', 'success');
+            } catch (error) {
+                // 显示错误信息
+                jsonOutput.innerHTML = `<span class="text-danger">错误: ${error.message}</span>`;
+                showNotification('JSON格式无效', 'error');
+            }
+        }
+
+        // JSON语法高亮
+        function syntaxHighlight(json) {
+            // 将JSON字符串转换为HTML，转义特殊字符
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            
+            // 使用正则表达式为不同类型的JSON元素添加样式类
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                let cls = 'json-number';
+                
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                        // 移除键后面的冒号
+                        match = match.replace(/:$/, '');
+                        // 在冒号前添加样式，然后添加冒号
+                        return '<span class="' + cls + '">' + match + '</span>: ';
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        // 复制到剪贴板
+        function copyToClipboard() {
+            const textToCopy = jsonOutput.textContent;
+            
+            if (!textToCopy) {
+                showNotification('没有可复制的内容', 'info');
+                return;
+            }
+            
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    showNotification('已复制到剪贴板', 'success');
+                })
+                .catch(err => {
+                    showNotification('复制失败: ' + err, 'error');
+                });
+        }
+
+        // 显示通知
+        function showNotification(message, type = 'info') {
+            // 设置通知类型的样式
+            let bgColor, textColor, icon;
+            
+            switch (type) {
+                case 'success':
+                    bgColor = 'bg-success';
+                    textColor = 'text-white';
+                    icon = 'check-circle';
+                    break;
+                case 'error':
+                    bgColor = 'bg-danger';
+                    textColor = 'text-white';
+                    icon = 'x-circle';
+                    break;
+                case 'info':
+                default:
+                    bgColor = 'bg-blue-500';
+                    textColor = 'text-white';
+                    icon = 'info';
+            }
+            
+            // 创建图标元素
+            const iconElement = document.createElement('i');
+            iconElement.setAttribute('data-lucide', icon);
+            iconElement.className = 'w-5 h-5 mr-2';
+            
+            // 设置通知内容
+            notification.innerHTML = '';
+            notification.appendChild(iconElement);
+            notification.appendChild(document.createTextNode(message));
+            
+            // 应用样式
+            notification.className = `fixed bottom-4 right-4 px-4 py-2 rounded-md shadow-lg transform transition-all duration-300 flex items-center ${bgColor} ${textColor}`;
+            
+            // 显示通知
+            notification.classList.remove('translate-y-16', 'opacity-0');
+            
+            // 重新渲染图标
+            lucide.createIcons();
+            
+            // 3秒后隐藏通知
+            setTimeout(() => {
+                notification.classList.add('translate-y-16', 'opacity-0');
+            }, 3000);
+        }
+
+        // 实现面板拖动调整大小
+        function initResizer() {
+            let isResizing = false;
+            
+            // 鼠标按下时开始调整大小
+            resizer.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+            
+            // 鼠标移动时调整面板宽度
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+                
+                const container = resizer.parentElement;
+                const containerRect = container.getBoundingClientRect();
+                
+                // 计算鼠标在容器中的相对位置
+                const relativeX = e.clientX - containerRect.left;
+                // 计算面板宽度百分比
+                const widthPercentage = (relativeX / containerRect.width) * 100;
+                
+                // 限制最小宽度为20%
+                if (widthPercentage > 20 && widthPercentage < 80) {
+                    inputPanel.style.flex = `0 0 ${widthPercentage}%`;
+                    outputPanel.style.flex = `0 0 ${100 - widthPercentage}%`;
+                }
+            });
+            
+            // 鼠标释放时结束调整大小
+            document.addEventListener('mouseup', () => {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+
+        // 事件监听
+        formatBtn.addEventListener('click', formatJSON);
+        copyBtn.addEventListener('click', copyToClipboard);
+        jsonInput.addEventListener('input', formatJSON);
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initResizer();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
