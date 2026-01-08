@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>在线工具站</title>
-    <!-- 简单的样式，让页面更易读 -->
+    <!-- 谷歌广告脚本：放在head标签内，async确保不阻塞页面加载 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5542745258842294"
+     crossorigin="anonymous"></script>
     <style>
         * {
             margin: 0;
@@ -40,12 +42,31 @@
             color: #7f8c8d;
             font-size: 14px;
         }
+        /* 可选：给广告预留空间（如果后续加广告位的话） */
+        .ad-container {
+            margin: 40px auto;
+            max-width: 728px;
+        }
     </style>
 </head>
 <body>
     <h1>在线工具集合</h1>
-    <!-- 核心链接：指向你的json-beautifier.html文件 -->
-    <a href="/json/json-beautifier.html" class="tool-link">JSON格式化工具</a>
+    
+    <!-- 可选：广告位容器（如果需要展示广告，可添加这段） -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5542745258842294"
+             data-ad-slot="2877002167"  <!-- 替换成你的实际广告位ID -->
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- 正确的工具页面链接（根目录为webtool） -->
+    <a href="json/json-beautifier.html" class="tool-link">JSON格式化工具</a>
     
     <p class="note">点击上方链接进入JSON格式化工具页面</p>
 </body>
