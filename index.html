@@ -1,1 +1,52 @@
-hello
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线工具站</title>
+    <!-- 简单的样式，让页面更易读 -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .tool-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .tool-link:hover {
+            background-color: #2980b9;
+        }
+        .note {
+            margin-top: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>在线工具集合</h1>
+    <!-- 核心链接：指向你的json-beautifier.html文件 -->
+    <a href="/json/json-beautifier.html" class="tool-link">JSON格式化工具</a>
+    
+    <p class="note">点击上方链接进入JSON格式化工具页面</p>
+</body>
+</html>
