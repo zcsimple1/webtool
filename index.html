@@ -3,10 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在线工具站</title>
+    <title>在线工具站 - 免费JSON格式化、转换、校验工具集合</title>
+    <!-- SEO Meta标签 -->
+    <meta name="description" content="在线工具站提供免费的JSON格式化、JSON压缩、JSON校验、JSON转CSV、CSV转JSON、JSON转XML等实用工具，支持语法高亮和深色模式。">
+    <meta name="keywords" content="JSON格式化,JSON工具,JSON压缩,JSON校验,JSON转CSV,CSV转JSON,JSON转XML,在线工具">
+    <meta name="author" content="在线工具站">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    
+    <!-- Open Graph协议 -->
+    <meta property="og:title" content="在线工具站 - 免费JSON格式化、转换、校验工具集合">
+    <meta property="og:description" content="在线工具站提供免费的JSON格式化、JSON压缩、JSON校验、JSON转CSV、CSV转JSON、JSON转XML等实用工具，支持语法高亮和深色模式。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://webtool.example.com/">
+    <meta property="og:image" content="https://webtool.example.com/og-image.png">
+    <meta property="og:site_name" content="在线工具站">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="在线工具站 - 免费JSON格式化、转换、校验工具集合">
+    <meta name="twitter:description" content="在线工具站提供免费的JSON格式化、JSON压缩、JSON校验、JSON转CSV、CSV转JSON、JSON转XML等实用工具，支持语法高亮和深色模式。">
+    <meta name="twitter:image" content="https://webtool.example.com/twitter-image.png">
+    
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "在线工具站",
+      "url": "https://webtool.example.com/",
+      "description": "在线工具站提供免费的JSON格式化、JSON压缩、JSON校验、JSON转CSV、CSV转JSON、JSON转XML等实用工具，支持语法高亮和深色模式。",
+      "keywords": "JSON格式化,JSON工具,JSON压缩,JSON校验,JSON转CSV,CSV转JSON,JSON转XML,在线工具",
+      "inLanguage": "zh-CN",
+      "author": {
+        "@type": "Person",
+        "name": "在线工具站团队"
+      },
+      "datePublished": "2024-01-01",
+      "dateModified": "2026-01-01"
+    }
+    </script>
+    
+    <script>
+        // 广告检测和显示控制
+        function setupAdDetection() {
+            // 监听广告加载事件
+            window.adsbygoogle = window.adsbygoogle || [];
+            
+            // 保存原始的push方法
+            const originalPush = window.adsbygoogle.push;
+            
+            // 重写push方法以检测广告加载
+            window.adsbygoogle.push = function(args) {
+                const result = originalPush.apply(this, arguments);
+                
+                // 延迟检查广告是否加载成功
+                setTimeout(() => {
+                    checkAdContainers();
+                }, 1000);
+                
+                return result;
+            };
+            
+            // 初始检查
+            setTimeout(() => {
+                checkAdContainers();
+            }, 2000);
+            
+            // 监听窗口大小变化
+            window.addEventListener('resize', () => {
+                setTimeout(checkAdContainers, 300);
+            });
+        }
+        
+        // 检查所有广告容器
+        function checkAdContainers() {
+            const adContainers = document.querySelectorAll('.ad-container');
+            
+            adContainers.forEach(container => {
+                const insElement = container.querySelector('ins.adsbygoogle');
+                
+                if (insElement) {
+                    // 检查广告是否有实际内容
+                    const hasAdContent = insElement.offsetHeight > 10 || 
+                                        insElement.scrollHeight > 10 ||
+                                        insElement.querySelector('iframe') !== null;
+                    
+                    if (hasAdContent) {
+                        container.classList.add('has-ad');
+                    } else {
+                        container.classList.remove('has-ad');
+                    }
+                }
+            });
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setupAdDetection();
+            
+            // 立即检查一次
+            checkAdContainers();
+        });
+    </script>
+    
     <!-- 谷歌广告脚本：放在head标签内，async确保不阻塞页面加载 -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5542745258842294"
      crossorigin="anonymous"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -15,59 +121,272 @@
             font-family: Arial, sans-serif;
         }
         body {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .main-container {
             text-align: center;
+            max-width: 600px;
+            width: 100%;
         }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 30px;
+        .logo {
+            margin-bottom: 40px;
         }
-        .tool-link {
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+        .big-button {
             display: inline-block;
-            padding: 12px 24px;
-            background-color: #3498db;
+            padding: 20px 40px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
             text-decoration: none;
-            border-radius: 6px;
-            font-size: 18px;
-            transition: background-color 0.3s;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255,255,255,0.3);
+            position: relative;
+            overflow: hidden;
         }
-        .tool-link:hover {
-            background-color: #2980b9;
+        .big-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+            background: linear-gradient(45deg, #45a049, #4CAF50);
         }
-        .note {
-            margin-top: 20px;
-            color: #7f8c8d;
-            font-size: 14px;
+        .big-button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
-        /* 可选：给广告预留空间（如果后续加广告位的话） */
+        .big-button i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        .big-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .big-button:hover::before {
+            left: 100%;
+        }
         .ad-container {
             margin: 40px auto;
+            width: 100%;
             max-width: 728px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 0;
+            transition: all 0.3s ease;
+            opacity: 0;
+            max-height: 0;
+        }
+        .ad-container.square {
+            max-width: 336px;
+        }
+        .ad-container.has-ad {
+            opacity: 1;
+            max-height: 500px;
+        }
+        .ad-container.mb-6 {
+            margin-bottom: 24px;
+        }
+        .ad-container.mt-6 {
+            margin-top: 24px;
+        }
+        .ad-container.ad-h1.has-ad {
+            margin-bottom: 24px;
+        }
+        .ad-container.ad-h2.has-ad {
+            margin-top: 24px;
+        }
+        .button-ads-combo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: nowrap;
+            min-width: 0;
+        }
+        .button-ads-combo .ad-container {
+            margin: 0 !important;
+            flex: 0 0 auto;
+            min-width: 0;
+        }
+        .button-ads-combo .ad-container.has-ad {
+            margin: 0 !important;
+            flex: 0 0 336px;
+        }
+        .button-ads-combo .big-button {
+            flex: 0 0 auto;
+            white-space: nowrap;
+        }
+        /* 确保即使在较小屏幕上也保持水平排列 */
+        @media (max-width: 1200px) {
+            .button-ads-combo {
+                flex-wrap: wrap;
+            }
+        }
+        @media (max-width: 768px) {
+            .button-ads-combo {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .button-ads-combo .ad-container {
+                order: 2;
+            }
+            .button-ads-combo .big-button {
+                order: 1;
+            }
+            .button-ads-combo .ad-container.has-ad {
+                flex: 0 0 300px;
+            }
+        }
+        .ad-container ins {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .footer {
+            margin-top: 40px;
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <h1>在线工具集合</h1>
-    
-    <!-- 可选：广告位容器（如果需要展示广告，可添加这段） -->
-    <div class="ad-container">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-5542745258842294"
-             data-ad-slot="2877002167" 
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+    <!-- SEO文本内容 - 对用户不可见，但对搜索引擎可见 -->
+    <div class="sr-only">
+        <h1>在线工具集合</h1>
+        <p>提供专业的JSON处理工具，包括格式化、压缩、校验、转换等功能，支持多种数据格式互转，完全免费使用。</p>
+        <div>
+            <h2>JSON格式化工具</h2>
+            <p>快速格式化、压缩、校验JSON数据，支持语法高亮和多种缩进选项。</p>
+        </div>
+        <div>
+            <h2>为什么选择我们的工具？</h2>
+            <div>
+                <h3>快速高效</h3>
+                <p>所有处理在本地完成，无需等待服务器响应，即时获得结果。</p>
+            </div>
+            <div>
+                <h3>隐私安全</h3>
+                <p>数据处理完全在您的浏览器中进行，不会上传到任何服务器。</p>
+            </div>
+            <div>
+                <h3>响应式设计</h3>
+                <p>完美适配桌面、平板和手机，随时随地使用我们的工具。</p>
+            </div>
+            <div>
+                <h3>完全免费</h3>
+                <p>所有工具完全免费使用，无限制、无水印、无需注册。</p>
+            </div>
+        </div>
     </div>
 
-    <!-- 正确的工具页面链接（根目录为webtool） -->
-    <a href="json/json-beautifier.html" class="tool-link">JSON格式化工具</a>
-    
-    <p class="note">点击上方链接进入JSON格式化工具页面</p>
+    <div class="main-container">
+        <!-- Logo和标题 -->
+        <div class="logo">
+            <h1>在线工具站</h1>
+        </div>
+
+        <!-- 广告位 - h1 (长条形) -->
+        <div class="ad-container ad-h1 mb-6" data-ad-slot="8097361649">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-5542745258842294"
+                 data-ad-slot="8097361649"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- 按钮和正方形广告组合区域 -->
+        <div class="button-ads-combo">
+            <!-- 左侧正方形广告 -->
+            <div class="ad-container ad-s1 square" data-ad-slot="5223786294">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-5542745258842294"
+                     data-ad-slot="5223786294"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <!-- 主要按钮 -->
+            <a href="json/json-beautifier.html" class="big-button">
+                <i class="fa fa-code"></i>
+                JSON格式化工具
+            </a>
+
+            <!-- 右侧正方形广告 -->
+            <div class="ad-container ad-s2 square" data-ad-slot="3719132935">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-5542745258842294"
+                     data-ad-slot="3719132935"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <!-- 广告位 - h2 (长条形) -->
+        <div class="ad-container ad-h2 mt-6" data-ad-slot="2877002167">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-5542745258842294"
+                 data-ad-slot="2877002167" 
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>© 2026 在线工具站 | 简单 · 高效 · 免费</p>
+        </div>
+    </div>
 </body>
 </html>
