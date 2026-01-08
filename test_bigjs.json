@@ -1,0 +1,359 @@
+{
+  "platform_info": {
+    "platform_name": "GlobalMall",
+    "version": "3.8.2",
+    "api_version": "v2",
+    "data_generated_time": "2026-01-08T10:25:30+08:00",
+    "data_currency": "CNY",
+    "timezone": "Asia/Shanghai",
+    "data_source": "order_service",
+    "total_records": 120,
+    "page": 1,
+    "page_size": 20,
+    "total_pages": 6
+  },
+  "user_info_list": [
+    {
+      "user_id": "U8976543210",
+      "user_name": "ZhangSan",
+      "user_phone": "13812345678",
+      "user_email": "zhangsan@example.com",
+      "user_level": "VIP3",
+      "registration_time": "2023-05-12T09:18:22+08:00",
+      "member_points": 5890,
+      "address_list": [
+        {
+          "address_id": "AD100001",
+          "receiver_name": "张三",
+          "receiver_phone": "13812345678",
+          "province": "广东省",
+          "city": "深圳市",
+          "district": "南山区",
+          "detail_address": "科技园路100号腾讯大厦15层",
+          "zip_code": "518057",
+          "is_default": true,
+          "create_time": "2023-06-18T14:25:10+08:00"
+        },
+        {
+          "address_id": "AD100002",
+          "receiver_name": "张三",
+          "receiver_phone": "13812345678",
+          "province": "广东省",
+          "city": "广州市",
+          "district": "天河区",
+          "detail_address": "珠江新城冼村路5号凯华国际中心28层",
+          "zip_code": "510623",
+          "is_default": false,
+          "create_time": "2024-01-05T11:08:45+08:00"
+        }
+      ],
+      "payment_method_list": [
+        {
+          "method_id": "PM001",
+          "method_name": "支付宝",
+          "bind_time": "2023-05-15T08:30:15+08:00",
+          "is_valid": true
+        },
+        {
+          "method_id": "PM002",
+          "method_name": "微信支付",
+          "bind_time": "2023-07-22T16:42:30+08:00",
+          "is_valid": true
+        },
+        {
+          "method_id": "PM003",
+          "method_name": "银行卡",
+          "bind_time": "2023-09-10T10:15:00+08:00",
+          "is_valid": false,
+          "invalid_reason": "银行卡过期"
+        }
+      ]
+    },
+    {
+      "user_id": "U8976543211",
+      "user_name": "LiSi",
+      "user_phone": "13987654321",
+      "user_email": "lisi@example.com",
+      "user_level": "VIP1",
+      "registration_time": "2024-02-18T15:30:40+08:00",
+      "member_points": 1250,
+      "address_list": [
+        {
+          "address_id": "AD100003",
+          "receiver_name": "李四",
+          "receiver_phone": "13987654321",
+          "province": "北京市",
+          "city": "北京市",
+          "district": "朝阳区",
+          "detail_address": "建国门外大街甲6号SK大厦22层",
+          "zip_code": "100022",
+          "is_default": true,
+          "create_time": "2024-02-20T09:12:35+08:00"
+        }
+      ],
+      "payment_method_list": [
+        {
+          "method_id": "PM002",
+          "method_name": "微信支付",
+          "bind_time": "2024-02-20T10:05:20+08:00",
+          "is_valid": true
+        }
+      ]
+    }
+  ],
+  "order_list": [
+    {
+      "order_id": "OD202601080001",
+      "user_id": "U8976543210",
+      "order_status": "已完成",
+      "order_create_time": "2026-01-08T08:15:20+08:00",
+      "order_pay_time": "2026-01-08T08:18:45+08:00",
+      "order_delivery_time": "2026-01-08T09:30:10+08:00",
+      "order_confirm_time": "2026-01-08T16:25:30+08:00",
+      "payment_method_id": "PM001",
+      "payment_amount": 2599.99,
+      "discount_amount": 150.00,
+      "actual_pay_amount": 2449.99,
+      "shipping_fee": 0.00,
+      "address_id": "AD100001",
+      "express_company": "顺丰速运",
+      "express_number": "SF1234567890123",
+      "goods_list": [
+        {
+          "goods_id": "G100001",
+          "goods_name": "Apple iPhone 15 Pro 256GB 原色钛金属",
+          "goods_sku": "IP15PRO-256G-TI",
+          "goods_price": 7999.00,
+          "purchase_quantity": 1,
+          "goods_category": "手机数码",
+          "goods_brand": "Apple",
+          "goods_img_url": "https://example.com/images/iphone15pro.jpg",
+          "goods_attr": [
+            {
+              "attr_name": "颜色",
+              "attr_value": "原色钛金属"
+            },
+            {
+              "attr_name": "存储容量",
+              "attr_value": "256GB"
+            }
+          ]
+        },
+        {
+          "goods_id": "G100002",
+          "goods_name": "Apple AirPods Pro 第二代 搭配MagSafe充电盒",
+          "goods_sku": "AIRPODSPRO2-MAGSAFE",
+          "goods_price": 1499.00,
+          "purchase_quantity": 1,
+          "goods_category": "音频设备",
+          "goods_brand": "Apple",
+          "goods_img_url": "https://example.com/images/airpodspro2.jpg",
+          "goods_attr": [
+            {
+              "attr_name": "版本",
+              "attr_value": "第二代"
+            },
+            {
+              "attr_name": "充电盒",
+              "attr_value": "MagSafe充电盒"
+            }
+          ]
+        }
+      ],
+      "order_note": "请在工作日送货，谢谢！",
+      "invoice_info": {
+        "invoice_type": "电子发票",
+        "invoice_title": "个人",
+        "invoice_tax_id": "",
+        "invoice_content": "商品明细",
+        "invoice_status": "已开具",
+        "invoice_url": "https://example.com/invoice/OD202601080001.pdf"
+      },
+      "refund_info": {
+        "is_refunded": false,
+        "refund_amount": 0.00,
+        "refund_reason": "",
+        "refund_time": ""
+      }
+    },
+    {
+      "order_id": "OD202601080002",
+      "user_id": "U8976543211",
+      "order_status": "待发货",
+      "order_create_time": "2026-01-08T10:05:15+08:00",
+      "order_pay_time": "2026-01-08T10:08:30+08:00",
+      "order_delivery_time": "",
+      "order_confirm_time": "",
+      "payment_method_id": "PM002",
+      "payment_amount": 899.00,
+      "discount_amount": 50.00,
+      "actual_pay_amount": 849.00,
+      "shipping_fee": 10.00,
+      "address_id": "AD100003",
+      "express_company": "",
+      "express_number": "",
+      "goods_list": [
+        {
+          "goods_id": "G200001",
+          "goods_name": "小米平板6 Pro 11.2英寸 8GB+256GB 黑色",
+          "goods_sku": "XM-PAD6PRO-8+256-BK",
+          "goods_price": 2499.00,
+          "purchase_quantity": 1,
+          "goods_category": "平板电脑",
+          "goods_brand": "小米",
+          "goods_img_url": "https://example.com/images/xmpad6pro.jpg",
+          "goods_attr": [
+            {
+              "attr_name": "颜色",
+              "attr_value": "黑色"
+            },
+            {
+              "attr_name": "存储容量",
+              "attr_value": "8GB+256GB"
+            },
+            {
+              "attr_name": "屏幕尺寸",
+              "attr_value": "11.2英寸"
+            }
+          ]
+        },
+        {
+          "goods_id": "G200002",
+          "goods_name": "罗技K380无线蓝牙键盘 白色",
+          "goods_sku": "LOGI-K380-WH",
+          "goods_price": 199.00,
+          "purchase_quantity": 1,
+          "goods_category": "电脑配件",
+          "goods_brand": "罗技",
+          "goods_img_url": "https://example.com/images/logik380.jpg",
+          "goods_attr": [
+            {
+              "attr_name": "颜色",
+              "attr_value": "白色"
+            },
+            {
+              "attr_name": "连接方式",
+              "attr_value": "无线蓝牙"
+            }
+          ]
+        },
+        {
+          "goods_id": "G200003",
+          "goods_name": "绿联Type-C数据线 1.5米 黑色",
+          "goods_sku": "UGREEN-TYC-1.5M-BK",
+          "goods_price": 29.00,
+          "purchase_quantity": 2,
+          "goods_category": "数码配件",
+          "goods_brand": "绿联",
+          "goods_img_url": "https://example.com/images/ugreentc.jpg",
+          "goods_attr": [
+            {
+              "attr_name": "长度",
+              "attr_value": "1.5米"
+            },
+            {
+              "attr_name": "颜色",
+              "attr_value": "黑色"
+            },
+            {
+              "attr_name": "接口类型",
+              "attr_value": "Type-C"
+            }
+          ]
+        }
+      ],
+      "order_note": "",
+      "invoice_info": {
+        "invoice_type": "纸质发票",
+        "invoice_title": "北京XX科技有限公司",
+        "invoice_tax_id": "91110105MA00XXXXXX",
+        "invoice_content": "办公用品",
+        "invoice_status": "待开具",
+        "invoice_url": ""
+      },
+      "refund_info": {
+        "is_refunded": false,
+        "refund_amount": 0.00,
+        "refund_reason": "",
+        "refund_time": ""
+      }
+    },
+    {
+      "order_id": "OD202601080003",
+      "user_id": "U8976543210",
+      "order_status": "已取消",
+      "order_create_time": "2026-01-08T09:20:10+08:00",
+      "order_pay_time": "",
+      "order_delivery_time": "",
+      "order_confirm_time": "",
+      "payment_method_id": "",
+      "payment_amount": 1299.00,
+      "discount_amount": 80.00,
+      "actual_pay_amount": 0.00,
+      "shipping_fee": 0.00,
+      "address_id": "AD100002",
+      "express_company": "",
+      "express_number": "",
+      "goods_list": [
+        {
+          "goods_id": "G300001",
+          "goods_name": "华为MateBook 14 2025款 16GB+1TB 深空灰",
+          "goods_sku": "HUAWEI-MB14-2025-16+1T-GY",
+          "goods_price": 5699.00,
+          "purchase_quantity": 1,
+          "goods_category": "笔记本电脑",
+          "goods_brand": "华为",
+          "goods_img_url": "https://example.com/images/huaweimb14.jpg",
+          "goods_attr": [
+            {
+              "attr_name": "颜色",
+              "attr_value": "深空灰"
+            },
+            {
+              "attr_name": "存储容量",
+              "attr_value": "16GB+1TB"
+            },
+            {
+              "attr_name": "型号",
+              "attr_value": "2025款"
+            }
+          ]
+        }
+      ],
+      "order_note": "临时不需要了，取消订单",
+      "invoice_info": {
+        "invoice_type": "",
+        "invoice_title": "",
+        "invoice_tax_id": "",
+        "invoice_content": "",
+        "invoice_status": "",
+        "invoice_url": ""
+      },
+      "refund_info": {
+        "is_refunded": false,
+        "refund_amount": 0.00,
+        "refund_reason": "",
+        "refund_time": ""
+      }
+    }
+  ],
+  "statistics_info": {
+    "total_order_amount": 4648.99,
+    "total_actual_pay_amount": 3298.99,
+    "total_discount_amount": 280.00,
+    "total_shipping_fee": 10.00,
+    "completed_order_count": 1,
+    "pending_delivery_count": 1,
+    "cancelled_order_count": 1,
+    "user_count": 2,
+    "goods_count": 7
+  },
+  "system_info": {
+    "server_ip": "10.100.20.30",
+    "server_name": "order-server-01",
+    "response_time_ms": 85,
+    "request_id": "req-87654321-abcdef-987654",
+    "error_code": 0,
+    "error_msg": "success"
+  }
+}
